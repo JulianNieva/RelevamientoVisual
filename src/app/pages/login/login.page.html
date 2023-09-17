@@ -1,0 +1,54 @@
+<ion-content no-scroll>
+  <div class="text-center">
+    <img class="icono" src="assets/icons/icon.png">
+  </div>
+  <ion-card-header>
+    <div class="usuarios">
+      <p>Admin</p>
+      <p>Usuario</p>
+      <p>Invitado</p>
+    </div>
+    <div class="botones">
+      <ion-fab class="fab-inicio" horizontal="start">
+        <ion-fab-button class="fab-color" (click)="CargarForm(0)">
+          <img src="/assets/icons/admin.png" alt="">
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab class="fab-medio" horizontal="center">
+        <ion-fab-button class="fab-color" (click)="CargarForm(2)">
+          <img src="/assets/icons/usuario.png" alt="">
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab class="fab-final" horizontal="end">
+        <ion-fab-button class="fab-color" (click)="CargarForm(1)">
+          <img src="/assets/icons/invitado.png" alt="">
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+  </ion-card-header>
+  <ion-card>
+    <ion-card-content>
+      <form>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <ion-input label="Correo Electrónico" labelPlacement="stacked" type="email" [formControl]="email"></ion-input>
+        </ion-item>
+        <div color="danger" *ngIf="email.errors && (email.dirty || email.touched)">
+          <ion-text color="danger" *ngIf="email.errors['required']">¡El campo no puede estar vacio!</ion-text>
+          <ion-text color="danger" *ngIf="email.errors['email']">¡Debe ingresar un mail valido!</ion-text>
+        </div>
+        <br>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="key"></ion-icon>
+          <ion-input label="Contraseña" labelPlacement="stacked" type="password" [formControl]="clave"></ion-input>
+        </ion-item>
+        <div *ngIf="clave.errors && (clave.dirty || clave.touched)">
+          <ion-text color="danger" *ngIf="clave.errors['required']">¡El campo no puede estar vacio!</ion-text>
+          <ion-text color="danger" *ngIf="clave.errors['minlength']">¡Debe tener al menos 6 caracteres!</ion-text>
+        </div>
+        <br>
+          <ion-button (click)="login()" size="large" [disabled]="!isFormValid || isLoading" expand="block" fill="clear">Ingresar</ion-button>
+      </form>   
+    </ion-card-content>
+  </ion-card>
+</ion-content>

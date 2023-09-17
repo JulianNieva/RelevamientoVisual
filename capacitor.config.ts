@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'relevamiento visual',
+  appId: 'com.nieva.relevamientovisual',
+  appName: 'Relevamiento Visual',
   webDir: 'www',
   server: {
     androidScheme: 'https'

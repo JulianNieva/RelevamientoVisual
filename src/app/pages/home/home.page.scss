@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+$font: 'Roboto', sans-serif;
+// MENU PRINCIPAL
+ion-content {
+    --background: linear-gradient(
+      325deg,
+      #1D3557 14%,
+      #d47b83 39%,
+      #f1faee 73%
+    );
+    overflow: hidden;
+    position: relative;
+    .cosas-lindas-btn {
+      background: url("../../../assets/icons/c-lindas.png");
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      border: 3px solid #1D3557;
+      text-align: center;
+      margin-bottom: 10px;
+      height: 40vh;
+
+      h2 {
+        font-size: 1.8rem;
+        font-weight: bolder;
+        color: #f1faee;
+        font-family: $font;
+        line-height: 14rem;
+        border-radius: 15px;
+        text-shadow: 2px 2px 4px #000;
+      }
+    }
+    .cosas-lindas-btn:active {
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    .cosas-feas-btn {
+      background: url("../../../assets/icons/c-feas.png");
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      border: 3px solid #E63946;
+      text-align: center;
+      box-shadow: 2px 2px 3px #000;
+      height: 40vh;
+      h2 {
+        font-size: 1.8rem;
+        color: #f1faee;
+        font-weight: bolder;
+        font-family: $font;
+        line-height: 14rem;
+        border-radius: 15px;
+        text-shadow: 2px 2px 4px #000;
+      }
+    }
+    .cosas-feas-btn:active {
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    .btn-danger {
+      width: 15rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border: 2px solid #fff;
+      box-shadow: 2px 2px 3px #000;
+    }
+    .btn-danger:active {
+      transform: scale(1.1);
+      transition: transform 0.3s;
+    }
+  }
+  
+  ion-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15rem;
+    height: 15rem;
+  }
+  
+  // MENU COSAS LINDAS Y FEAS
+  .btns-cosas-lindas {
+    width: 45%;
+    color: #fff;
+    text-align: center;
+    border: 2px solid #fff;
+    border-radius: 10px;
+  }
+  .btns-cosas-lindas:active {
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+  .btn-menu-cl {
+    background: black;
+  }
+  .btn-sesion-cl {
+    background: rgb(168, 28, 28);
+  }
+
+  // MENU COSAS LINDAS Y FEAS
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 0 10px;  /* añade padding si es necesario */
+  }
+
+  .expanded-button {
+    flex-grow: 1;
+  }
+  
+  ion-segment:active {
+    --background:transparent;
+    --background-checked:none;
+    filter: none;
+  }
+
+  .segHome {
+    --background: transparent;
+    --background-checked:none;
+    width: 100%;
+    display: flex;
+    color:transparent;
+  }
+
+  .mis-fotos,
+  .grafico {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .mis-fotos:active,
+  .grafico:active {
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+
+  .grafico {
+    width: 13rem;
+    background: black;
+    color: #fff;
+    border: 3px solid #444;
+  }
+  
+  .btn-tomar-foto {
+    display: block;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    height: 8rem;
+    background: url("../../../assets/icons/camara2.png");
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 3px solid rgb(255, 255, 255);
+    text-align: center;
+  }
+
+  .btn-tomar-foto:active {
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+  
+  // LISTADO COSAS LINDAS y FEAS
+  .img-cosas-lindas {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+  }
+  
+  .btn-like-dislike-cl {
+    --background: #A8DADC;
+    ion-icon {
+      width: 3rem;
+      height: 3rem;
+      margin-left: 40%;
+    }
+  }
+  
+  .like-activado {
+    color: rgb(1, 143, 1);
+  }
+  
+  // PIPE Y BAR CHART
+  
+  .pipe-chart-container,
+  .bar-chart-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 50vh!important;
+    margin: auto;
+    margin-top: 2rem;
+  }
+
+  //SPINNER
+@keyframes rotate-center {
+    0% {
+      -webkit-transform: rotate(0);
+      transform: rotate(0);
+    }
+  
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  .custom-spinner img {
+    animation: rotate-center 1s ease-in-out infinite both;
+    max-width: 200px;
+    height: 200px;
+    opacity: 1;
+  }
+  
+  .custom-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background-color: rgba(91, 91, 91, 0.601);
+    background-repeat: no-repeat;
+    background-size: 150px;
+    background-position: center;
+  }
+  
+  .spinnerh1 {
+    font-family: 'Fruinky', sans-serif;
+    position: absolute;
+    top: 200px;
+    font-size: 40px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }

@@ -1,6 +1,6 @@
 <ion-content no-scroll>
   <div class="text-center">
-    <img class="icono" src="assets/icons/icon.png">
+    <img class="icono vibrate-1" src="assets/icon.png">
   </div>
   <ion-card-header>
     <div class="usuarios">
@@ -47,7 +47,10 @@
           <ion-text color="danger" *ngIf="clave.errors['minlength']">¡Debe tener al menos 6 caracteres!</ion-text>
         </div>
         <br>
-          <ion-button (click)="login()" size="large" [disabled]="!isFormValid || isLoading" expand="block" fill="clear">Ingresar</ion-button>
+          <ion-button (click)="login()" size="large" [disabled]="!isFormValid || isLoading" expand="block" fill="clear">
+            <span *ngIf="!isLoading">Ingresar</span>
+            <ion-spinner *ngIf="isLoading" name="dots"></ion-spinner>
+          </ion-button>
       </form>   
     </ion-card-content>
   </ion-card>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
 import { FormBuilder,Validators,FormGroup,FormControl } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
     {email: 'usuario@usuario.com', password:'333333'}
   ]
 
-  constructor(private userService:UserService,private router:Router) 
+  constructor(private userService:UserService,private navCtrl:NavController) 
   { 
     this.email = new FormControl('',[
       Validators.required,
@@ -44,9 +44,13 @@ export class LoginPage implements OnInit {
     this.userService.login(this.email.value?.toString(),this.clave.value?.toString())
     .then(response => {
       setTimeout(() => {
-        this.isLoading=false
-        this.router.navigate(['/home']).then(() => this.LimpiarForm())
-      },2000)
+        this.userService.MostrarToast("EXITO!","Seras redirigido a la pagina principal","success","checkmark-outline").then(res => {
+          setTimeout(() => {
+            this.navCtrl.navigateRoot(['/home'])
+            this.LimpiarForm()      
+          },2500)
+        })
+      }, 2000);
     }).catch(error => {
       setTimeout(() => {
         console.log(error)

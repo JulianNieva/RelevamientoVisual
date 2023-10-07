@@ -1,13 +1,201 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+    <!-- MENU BOTONES INICIALES -->
+    <div style="width: 100%; height: 100%" *ngIf="menu == 0">
+        <ion-grid style="display: flex; flex-flow: column">
+            <ion-row style="flex-grow: 1; margin-bottom: 1rem">
+                <ion-col class="cosas-lindas-btn" (click)="chooseMenu(1)">
+                    <h2>COSAS LINDAS</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row style="flex-grow: 1; margin-bottom: 1rem">
+                <ion-col class="cosas-feas-btn" (click)="chooseMenu(2)">
+                    <h2>COSAS FEAS</h2>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+        <ion-grid style="display: flex; flex-flow: column">
+            <ion-row style="flex-grow: 1">
+                <ion-col>
+                    <button class="btn btn-danger" (click)="logoutUser()">
+                        Cerrar Sesión
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+
+    <!-- MENU COSAS LINDAS Y FEAS-->
+    <div style="width: 100%; height: 100%" *ngIf="menu == 1 || menu == 2">
+        <ion-grid style="height: 10%">
+            <ion-row style="flex-grow: 1">
+              <ion-col style="display: flex; justify-content: space-between">
+                <div class="button-container">
+                  <ion-icon (click)="volverMenu()"
+                    *ngIf="((menu === 1 || menu === 2 )&& (userImagesCosasLindas || userImagesCosasFeas))"
+                    style="font-size: 40px; color: #000;" name="chevron-back-outline"></ion-icon>
+                  <ion-buttons class="segHome">
+                    <ion-button (click)="chooseMenu(0)" class="expanded-button">
+                      <ion-icon name="home" style="color:#1D3557; width: 30px; height: 30px;"></ion-icon>
+                    </ion-button>
+                    <ion-button id="out-loading" (click)="logoutUser()" class="expanded-button">
+                      <ion-icon name="log-out" style="color:#1D3557; width: 30px; height: 30px;"></ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        <ion-grid style="height: 80%; display: flex; flex-flow: column">
+            <h1 style="
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 1.5rem;
+            font-weight: bolder;
+            color:#1D3557
+          ">
+                {{menuTittle}}
+            </h1>      
+            <div *ngIf="!userImagesCosasLindas && !userImagesCosasFeas">
+                <ion-segment class="segMenu" color="secondary">
+                    <ion-segment-button value="sacarFoto" (click)="seeOwnImages()">
+                        <ion-icon name="images-outline" style="color:black; width: 30px; height: 30px;"></ion-icon>
+                    </ion-segment-button>
+                    <ion-segment-button *ngIf="menu==1" value="estadistica" (click)="chooseMenu(3)">
+                        <ion-icon name="stats-chart-outline" style="color:black;width: 30px; height: 30px;"></ion-icon>
+                    </ion-segment-button>
+                    <ion-segment-button  *ngIf="menu==2" value="estadistica" (click)="chooseMenu(4)">
+                        <ion-icon name="stats-chart-outline" style="color:black;width: 30px; height: 30px;"></ion-icon>
+                    </ion-segment-button>
+                </ion-segment>
+                <h2 style="color:#1D3557" class="ion-text-center">Tomar Foto</h2>
+                <div class="btn-tomar-foto" (click)="addPhotoToGallery()"></div>
+            </div>
+
+            <!-- LISTADO DE IMAGENES COSAS LINDAS -->
+            <div style="margin-top: 1rem" *ngIf="menu == 1 && !userImagesCosasLindas">
+                <ion-card style="border: 3px solid rgb(218, 218, 218); border-radius: 10px" color="light"
+                    *ngFor="let item of this.cosasLindasList; let i = index" data-index="i">
+                    <img class="img-cosas-lindas" src="{{item.pathFoto}}" />
+                    <ion-card-header>
+                        <ion-card-title style="text-align: center; text-transform: capitalize;">{{item.perfil}}</ion-card-title>
+                        <ion-card-subtitle style="text-align: center">{{item.hour}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item class="btn-like-dislike-cl">
+                            <ion-icon style="color: #1D3557" name="checkmark-circle-outline" slot="start"
+                                *ngIf="item?.likes.indexOf(user.correo) == -1"
+                                (click)="voteImage(item, false)"></ion-icon>
+                            <ion-icon class="like-activado" name="checkmark-circle-sharp" slot="start"
+                                *ngIf="item?.likes.indexOf(user.correo) != -1"
+                                (click)="voteImage(item, true)"></ion-icon>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+
+            <!-- LISTADO DE IMAGENES COSAS LINDAS PROPIAS DEL USUARIO -->
+            <div style="margin-top: 1rem" *ngIf="menu == 1 && userImagesCosasLindas">
+                <h2 style="color:#1D3557;text-align: center; margin-bottom: 2rem; text-transform: capitalize;" >
+                    {{user.perfil}}
+                </h2>
+                <h2 style="color:#1D3557;text-align: center; margin-bottom: 2rem; font-size: 1.3rem">
+                    Listado de mis imágenes:
+                </h2>
+                <div *ngFor="let item of this.cosasLindasList; let i = index">
+                    <ion-card style="border: 3px solid rgb(218, 218, 218); border-radius: 10px" color="light"
+                        *ngIf="item.correo == user.correo" data-index="i">
+                        <div>
+                            <img class="img-cosas-lindas" src="{{item.pathFoto}}" />
+                            <ion-card-header>
+                                <ion-card-subtitle style="text-align: center">{{item.hour}}</ion-card-subtitle>
+                            </ion-card-header>
+                        </div>
+                    </ion-card>
+                </div>
+            </div>
+
+            <!-- LISTADO DE IMAGENES COSAS FEAS -->
+            <div style="margin-top: 1rem" *ngIf="menu == 2 && !userImagesCosasFeas">
+                <ion-card style="border: 3px solid rgb(218, 218, 218); border-radius: 10px" color="light"
+                    *ngFor="let item of this.cosasFeasList; let i = index" data-index="i">
+                    <img class="img-cosas-lindas" src="{{item.pathFoto}}" />
+                    <ion-card-header>
+                        <ion-card-title style="text-align: center; text-transform: capitalize;">{{item.perfil}}</ion-card-title>
+                        <ion-card-subtitle style="text-align: center">{{item.hour}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item class="btn-like-dislike-cl">
+                            <ion-icon style="color: #000" name="checkmark-circle-outline" slot="start"
+                                *ngIf="item.likes.indexOf(user.correo) == -1"
+                                (click)="voteImage(item, false)"></ion-icon>
+                            <ion-icon class="like-activado" name="checkmark-circle-sharp" slot="start"
+                                *ngIf="item.likes.indexOf(user.correo) != -1"
+                                (click)="voteImage(item, true)"></ion-icon>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+
+            <!-- LISTADO DE IMAGENES COSAS FEAS PROPIAS DEL USUARIO -->
+            <div style="margin-top: 1rem" *ngIf="menu == 2 && userImagesCosasFeas">
+                <h2 style="color:#1D3557;text-align: center; margin-bottom: 2rem; text-transform: capitalize;">
+                    {{user.perfil}}
+                </h2>
+                <h2 style="color:#1D3557;text-align: center; margin-bottom: 2rem; font-size: 1.3rem">
+                    Listado de mis imágenes:
+                </h2>
+                <div *ngFor="let item of this.cosasFeasList; let i = index">
+                    <ion-card style="border: 3px solid rgb(218, 218, 218); border-radius: 10px" color="light"
+                        *ngIf="item.correo == user.correo" data-index="i">
+                        <div>
+                            <img class="img-cosas-lindas" src="{{item.pathFoto}}" />
+                            <ion-card-header>
+                                <ion-card-subtitle style="text-align: center">{{item.hour}}</ion-card-subtitle>
+                            </ion-card-header>
+                        </div>
+                    </ion-card>
+                </div>
+            </div>
+        </ion-grid>
+    </div>
+
+    <!-- PIPE CHART -->
+    <div *ngIf="menu == 3">
+        <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
+        <ion-segment class="segHome" color="secondary">
+            <ion-segment-button value="back" (click)="chooseMenu(1)">
+                <ion-icon name="arrow-back" style="color:black;width: 30px; height: 30px;"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+
+        <h2 style="color:#1D3557;text-align: center; margin-top: 3rem; font-size: 1.6rem">
+            GRÁFICO DE COSAS LINDAS
+        </h2>
+        <div class="pipe-chart-container">
+            <canvas id="pipeChart"></canvas>
+        </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div *ngIf="menu == 4">
+        <ion-segment class="segHome" color="secondary">
+            <ion-segment-button value="back" (click)="chooseMenu(2)">
+                <ion-icon name="arrow-back" style="color:black;width: 30px; height: 30px;"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+
+        <h2 style="color:#1D3557;text-align: center; margin-top: 5rem; font-size: 1.6rem">
+            GRÁFICO DE COSAS FEAS
+        </h2>
+        <div class="bar-chart-container">
+            <canvas id="pipeChart"></canvas>
+        </div>
+    </div>
+
+  <!-- ******************************* SPINNER *******************************-->
+  <div *ngIf="pressedButton" class="custom-spinner">
+    <h1 class="spinnerh1">Cargando...</h1>
+    <img src="../../../assets/icon.png" alt="Custom Spinner" />
+  </div>
 </ion-content>
